@@ -7,7 +7,7 @@
 
 **Training** - means creating or learning the model.
 
-**Inference** - meany applying the trained model to the unlabeled examples.
+**Inference** - means applying the trained model to the unlabeled examples.
 
 **Regression Model** - predicts the continuous values
 * What is the value of a house?
@@ -17,7 +17,7 @@
 * is an email spam?
 * is this image a dog or a cat or a hamster?
 
-## Decending into ML
+## Descending into ML
 A simple 2d model can be defined with: y1 = b + w1 * x1
 * y is the target value
 * w is the weight values
@@ -29,7 +29,7 @@ Some models might depend on more than one input making the equation something li
 **Loss** - is how close the predictions are to the model.
 
 **L2 Loss (Squared Loss)** - square of the difference between prediction and label (y - y1)^2
-* this aplifies the loss value exponentially as the distance from the prediction increases.
+* this amplifies the loss value exponentially as the distance from the prediction increases.
 
 **Emperical Risk Minimization** - In supervised learning, a machine learning algorithm builds a model by examining many examples and attempting to find a model that minimizes loss; this process is called empirical risk minimization.
 
