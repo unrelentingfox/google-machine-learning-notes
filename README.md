@@ -64,6 +64,87 @@ A Machine Learning model is trained by starting with an initial guess for the we
 
 **Mini-batch stochastic gradient descent (mini-batch SGD)** - is a compromise between full-batch iteration and SGD. A mini-batch is typically between 10 and 1,000 examples, chosen at random. Mini-batch SGD reduces the amount of noise in SGD but is still more efficient than full-batch.
 
+# 2020-07-09
+## First Steps with TF
+### Python libraries
+* NumPy
+* Pandas
+
+How to create new columns in dataframe:
+
+```py
+# Create a new column named adjusted.
+my_dataframe["adjusted"] = my_dataframe["activity"] + 2
+
+# Print the entire DataFrame
+print(my_dataframe)
+```
+How to view only part of your dataframe
+```py
+print("Rows #0, #1, and #2:")
+print(my_dataframe.head(3), '\n')
+
+print("Row #2:")
+print(my_dataframe.iloc[[2]], '\n')
+
+print("Rows #1, #2, and #3:")
+print(my_dataframe[1:4], '\n')
+
+print("Column 'temperature':")
+print(my_dataframe['temperature'])
+```
+It's important to note that DataFrames are assigned by reference, so if you want a copy you have to call the copy function.
+
+### Linear Regression with tf.keras
+**Hyper Parameter Tuning** is the process of modifying the Learning Rate, Epochs, and Batch Size to optimize your learning time.
+* **Learning Rate** - A scalar used to train a model via gradient descent. During each iteration, the gradient descent algorithm multiplies the learning rate by the gradient. The resulting product is called the gradient step.
+* **Epochs** - A full training pass over the entire dataset such that each example has been seen once. Thus, an epoch represents N/batch size training iterations, where N is the total number of examples.
+* **Batch Size** - The number of examples you look at before recalculating your weights. One epoch spans sufficient iterations to process every example in the dataset. For example, if the batch size is 12, then each epoch lasts one iteration. However, if the batch size is 6, then each epoch consumes two iterations.
+* **Convergence** - Informally, often refers to a state reached during training in which training loss and validation loss change very little or not at all with each iteration after a certain number of iterations. In other words, a model reaches convergence when additional training on the current data will not improve the model.
+
+**Correlation Matrix** - indicates how each attribute's raw values relate to the other attributes' raw values. Correlation values have the following meanings:
+* 1.0: perfect positive correlation; that is, when one attribute rises, the other attribute rises.
+* -1.0: perfect negative correlation; that is, when one attribute rises, the other attribute falls.
+* 0.0: no correlation; the two column's are not linearly related.
+
+In general, the higher the absolute value of a correlation value, the greater its predictive power. For example, a correlation value of -0.8 implies far more predictive power than a correlation of -0.2.
 
 
+# 2020-07-20
+## Generalization
+**Overfit Model** - When a training model becomes too complex and to specific to the training set that it is no longer effective at generalizing new data that has not been seen before.
+**Ockham's Razor** - The less complex an ML model, the more likely that a good empirical result is not just due to the peculiarities of the sample.
+**Generalization Bounds** - statistical description of a model's ability to generalize to new data based on factors such as:
+* the complexity of the model
+* the model's performance on training data
+
+A machine learning model aims to make good predictions on new, previously unseen data. But if you are building a model from your data set, how would you get the previously unseen data? Well, one way is to divide your data set into two subsets:
+* **training set** - a subset to train a model.
+* **test set** - a subset to test the model.
+
+The following three basic assumptions guide generalization:
+* We draw examples independently and identically (i.i.d) at random from the distribution. In other words, examples don't influence each other. (An alternate explanation: i.i.d. is a way of referring to the randomness of variables.)
+* The distribution is stationary; that is the distribution doesn't change within the data set.
+* We draw examples from partitions from the same distribution.
+
+**Overfit Model** - When a training model becomes too complex and to specific to the training set that it is no longer effective at generalizing new data that has not been seen before.
+
+## Training and Test Sets
+When splitting your data into test and training sets try to make sure that your test set meets the following two conditions:
+* Is large enough to yield statistically meaningful results.
+* Is representative of the data set as a whole. In other words, don't pick a test set with different characteristics than the training set.
+
+**NEVER TRAIN ON TEST DATA!** If you are seeing surprisingly good results on your evaluation metrics, it might be a sign that you are accidentally training on the test set. For example, high accuracy might indicate that test data has leaked into the training set.
+
+When we have massive pools of data to pull from, we could get away with a 80:20 split of training:test. However if our data is relatively smart we might have to do other things like cross validation.
+
+## Validation Set
+Instead of just splitting your data into two partitions, test and training. There is one more partition that we should make. The validation set.
+
+This allows us to:
+1. Train on the training set
+2. validate the training using the validation set
+3. tweak our model (change hyper parameters, add/remove features, or even restart entirely) based on how well we fit the validation set
+4. Then finally check that we have not over-fit to the validation set by testing our model against the test set.
+   * We should see results as close to our results on the validation set as possible.
 
