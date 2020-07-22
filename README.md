@@ -168,9 +168,9 @@ However this solution can create some issues.
 * We will be learning a single weight that applies to all streets and multiplying that weight based upon the location of the street in the map (0, 1, 2, etc). Our model will need the flexibility of learning different weights for each street.
 * We might have cases where a house is on a courner of two streets wich means that street\_name would take multiple values
 
-**one-hot-encoding** - When you take categorical features and convert them into a binary vector where the length of the vector is the size of the discrete set of possible values. All values of the vector are set to 0 except for the one that represents the value of the feature.
+**One-hot-encoding** - When you take categorical features and convert them into a binary vector where the length of the vector is the size of the discrete set of possible values. All values of the vector are set to 0 except for the one that represents the value of the feature.
 
-**multi-hot-encoding** - Same as one-hot-encoding except there can be multiple 1 values in the vector.
+**Multi-hot-encoding** - Same as one-hot-encoding except there can be multiple 1 values in the vector.
 
 **Sparse Representation** - Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for street_name. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a sparse representation in which only nonzero values are stored.
 
@@ -186,3 +186,34 @@ Using the value -1 to mean that a value isn't present is an example of a "magic"
 ##### Account for upstream instability
 Definitions of features should not change over time.
 * For example, using cityName instead of cityId because CityName is much less likely to change than the Name.
+
+### Cleaning Data
+**Scaling** - When we convert floating point feature values from their natural range into a standard range. (Ex: 1 to 1000 -> 0 to 1, or -1 to +1)
+* This helps with gradient descent convergence
+* Helps avoid the "NaN trap" when a value in the model exceeds the floating-point precision limit during training from being multiplied too many times.
+* Helps the model learn apprpriate weights for each feature. Without feature scaling, the model will pay too much attention to the features having larger ranges.
+   * Nothing terrible will happen if Feature A is scaled from -1 to +1 while Feature B is scaled from -3 to +3. However, your model will react poorly if Feature B is scaled from 5000 to 100000.
+##### Handling Outliers in Data
+**Logarithmic Scaling** - When you take the log of each value.
+
+**Capping Feature Values** - set a maximum or minimum value for feature values to stop outliers from having excessive influence.
+
+**Binning** - When you split a feature with a large range of values that don't exactly have a linear relationship with your label. Take Lattitude for example, each different lattitude has an effect on housing price, however latitude of 34 is not proportionately lower or higher than latitude 36. We split these lattitudes into 'zones' in boolean vector similar to hot-encoding so the model can learn completely different weights for each zone.
+##### Scrubbing
+Until now, we've assumed that all the data used for training and testing was trustworthy. In real-life, many examples in data sets are unreliable due to one or more of the following:
+* Omitted values. For instance, a person forgot to enter a value for a house's age.
+* Duplicate examples. For example, a server mistakenly uploaded the same logs twice.
+* Bad labels. For instance, a person mislabeled a picture of an oak tree as a maple.
+* Bad feature values. For example, someone typed in an extra digit, or a thermometer was left out in the sun.
+
+In addition, getting statistics like the following can help:
+* Maximum and minimum
+* Mean and median
+* Standard deviation
+* Consider generating lists of the most common values for discrete features. For example, do the number of examples with country:uk match the number you expect. Should language:jp really be the most common language in your data set
+
+Follow these rules:
+* Keep in mind what you think your data should look like.
+* Verify that the data meets these expectations (or that you can explain why it doesn't).
+* Double-check that the training data agrees with other sources (for example, dashboards).
+
