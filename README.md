@@ -148,3 +148,41 @@ This allows us to:
 4. Then finally check that we have not over-fit to the validation set by testing our model against the test set.
    * We should see results as close to our results on the validation set as possible.
 
+# 2020-07-22
+## Representation
+### Feature engineering
+The process of transfroming raw data into a feature vector. This takes up a significant portion of our time in machine learning. Most machine learning models must represent features as numbers. So when we run into features that are strings or other types of data, we will need a way to transform them.
+
+**Categorical Features** - Features that have a discrete set of possible values. Street name, for example. These values will need to be converted to numberic values. We do this by putting all of the possible feature values in an enumerated mapping and storing only the index as the feature's value.
+
+**OOV (out-of-vocabulary) Bucket** - When dealing with categorical features, it is likely that our dataset does not contain every possible value for a feature, so we put all of those extra values into a catch-all "other" category known as an OOV bucket.
+
+For example using this approach, here's how we can map our street names to numbers:
+* map Charleston Road to 0
+* map North Shoreline Boulevard to 1
+* map Shorebird Way to 2
+* map Rengstorff Avenue to 3
+* map everything else (OOV) to 4
+
+However this solution can create some issues.
+* We will be learning a single weight that applies to all streets and multiplying that weight based upon the location of the street in the map (0, 1, 2, etc). Our model will need the flexibility of learning different weights for each street.
+* We might have cases where a house is on a courner of two streets wich means that street\_name would take multiple values
+
+**one-hot-encoding** - When you take categorical features and convert them into a binary vector where the length of the vector is the size of the discrete set of possible values. All values of the vector are set to 0 except for the one that represents the value of the feature.
+
+**multi-hot-encoding** - Same as one-hot-encoding except there can be multiple 1 values in the vector.
+
+**Sparse Representation** - Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for street_name. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a sparse representation in which only nonzero values are stored.
+
+### Qualities of Good Features
+##### Avoid rarely used or discrete feature values
+Good features should have values that appear more than 5 or so times in a data set. This allows the model to see the feature and it's relation with other features and determine if it is a good predictor of the label. Conversely if a feature's value appears only once or very rarely, the model can't make predictions based on that feature.
+* A unique id, for example, would be a bad feature because each value would only be used once.
+##### Prefer clear and obvious meanings
+Each feature should have clear meaning
+* For example use years instead of seconds to denote the age of a house.
+##### Don't use "magic" values
+Using the value -1 to mean that a value isn't present is an example of a "magic" value that has some extra meaning. Instead we should add an additional boolean feature to denote whether the value exists or not.
+##### Account for upstream instability
+Definitions of features should not change over time.
+* For example, using cityName instead of cityId because CityName is much less likely to change than the Name.
