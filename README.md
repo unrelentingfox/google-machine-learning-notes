@@ -1,3 +1,4 @@
+
  1. [Framing Key ML Terminology](#framing-key-ml-terminology)
  2. [Descending into ML](#descending-into-ml)
  3. [Reducing Loss](#reducing-loss)
@@ -7,7 +8,7 @@
     * [Python libraries](#python-libraries)
     * [Linear Regression with tf.keras](#linear-regression-with-tf.keras)
  5. [Generalization](#generalization)
-    * [The three basic assumptions of generalization:](#the-three-basic-assumptions-of-generalization:)
+    * [The three basic assumptions of generalization](#the-three-basic-assumptions-of-generalization)
  6. [Training and Test Sets](#training-and-test-sets)
  7. [Validation Set](#validation-set)
  8. [Representation](#representation)
@@ -23,7 +24,7 @@
       * [Scrubbing](#scrubbing)
  9. [Feature Crosses](#feature-crosses)
       * [Crossing One-Hot Vectors](#crossing-one-hot-vectors)
-10. [Regularization: Simplicity](#regularization:-simplicity)
+10. [Regularization Simplicity](#regularization-simplicity)
     * [Lambda](#lambda)
 
 # 2020-07-09
@@ -155,7 +156,7 @@ A machine learning model aims to make good predictions on new, previously unseen
 * **training set** - a subset to train a model.
 * **test set** - a subset to test the model.
 
-### The three basic assumptions of generalization:
+### The three basic assumptions of generalization
 1. We draw examples independently and identically (i.i.d) at random from the distribution. In other words, examples don't influence each other. (An alternate explanation: i.i.d. is a way of referring to the randomness of variables.)
 2. The distribution is stationary; that is the distribution doesn't change within the data set.
 3. We draw examples from partitions from the same distribution.
@@ -268,7 +269,7 @@ Two 5 element one-hot vectors crossed would give you one 25 element one-hot vect
 
 <ins>By doing this we end up with vastly more predictive ability than either feature on its own.</ins> For example, if a dog cries (happily) at 5:00 pm when the owner returns from work will likely be a great positive predictor of owner satisfaction. Crying (miserably, perhaps) at 3:00 am when the owner was sleeping soundly will likely be a strong negative predictor of owner satisfaction.
 
-## Regularization: Simplicity
+## Regularization Simplicity
 Often times when we are training data we run into the problem of over fitting. In order to solve this problem we instead of simply aiming to minimize loss (empirical risk minimization):
 
 `minimize(Loss(Data|Model))`
