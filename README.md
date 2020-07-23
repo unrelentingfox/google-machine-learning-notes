@@ -217,3 +217,53 @@ Follow these rules:
 * Verify that the data meets these expectations (or that you can explain why it doesn't).
 * Double-check that the training data agrees with other sources (for example, dashboards).
 
+## Feature Crosses
+**Feature Cross** - a synthetic feature that encodes nonlinearity in the feature space by multiplying two or more input features together. (The term cross comes from cross product.)
+
+There are many different kinds of Feature Crosses:
+* [A X B]: a feature cross formed by multiplying the values of two features.
+* [A x B x C x D x E]: a feature cross formed by multiplying the values of five features.
+* [A x A]: a feature cross formed by squaring a single feature.
+
+#### Crossing One-Hot Vectors
+Suppose we have two features: country and language. A one-hot encoding of each generates vectors with binary features that can be interpreted as country=USA, country=France or language=English, language=Spanish. Then, if you do a feature cross of these one-hot encodings, you get binary features that can be interpreted as logical conjunctions, such as:
+
+`country:usa AND language:spanish`
+
+Two 5 element one-hot vectors crossed would give you one 25 element one-hot vector for all the possible combinations of the two one-hot vector values.
+
+**By doing this we end up with vastly more predictive ability than either feature on its own.** For example, if a dog cries (happily) at 5:00 pm when the owner returns from work will likely be a great positive predictor of owner satisfaction. Crying (miserably, perhaps) at 3:00 am when the owner was sleeping soundly will likely be a strong negative predictor of owner satisfaction.
+
+## Regularization: Simplicity
+Often times when we are training data we run into the problem of overfitting. In order to solve this problem we instead of simply aiming to minimize loss (empirical risk minimization):
+
+`minimize(Loss(Data|Model))`
+
+we'll now minimize loss+complexity (**Structural Risk Minimization**)
+
+`minimize(Loss(Data|Model) + complexity(Model))`
+
+Our training optimization algorithm is now a function of two terms: the loss term, which measures how well the model fits the data, and the regularization term, which measures model complexity.
+
+We have two approaches to defining **model complexity**:
+* function of all the weights of all of the features in the model
+* function of the total number of features with nonzero weights
+
+**L2 regularization** - formula, which defines the regularization term as the sum of the squares of all the feature weights. In this formula, <ins>weights close to zero have little effect on model complexity</ins>, while outlier weights can have a huge impact.
+
+### Lambda
+Model developers tune the overall impact of the regularization term by multiplying its value by a scalar known as lambda (also called the regularization rate). That is, model developers aim to do the following:
+
+`minimize(Loss(Data|Model) +  λ*complexity(Model))`
+
+Performing L2 regularization has the following effect on a model
+
+* Encourages weight values toward 0 (but not exactly 0)
+* Encourages the mean of the weights toward 0, with a normal (bell-shaped or Gaussian) distribution.
+
+Increasing the lambda value strengthens the regularization effect. For example, the histogram of weights for a high value of lambda might look as shown in Figure 2.
+
+When choosing a lambda value, the goal is to strike the right balance between simplicity and training-data fit:
+* **If your lambda value is too high** - your model will be simple, but you run the risk of underfitting your data. Your model won't learn enough about the training data to make useful predictions.
+* **If your lambda value is too low** - your model will be more complex, and you run the risk of overfitting your data. Your model will learn too much about the particularities of the training data, and won't be able to generalize to new data.
+
