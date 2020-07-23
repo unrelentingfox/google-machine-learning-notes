@@ -154,9 +154,9 @@ This allows us to:
 # 2020-07-22
 ## Representation
 ### Feature engineering
-The process of transfroming raw data into a feature vector. This takes up a significant portion of our time in machine learning. Most machine learning models must represent features as numbers. So when we run into features that are strings or other types of data, we will need a way to transform them.
+The process of transforming raw data into a feature vector. This takes up a significant portion of our time in machine learning. Most machine learning models must represent features as numbers. So when we run into features that are strings or other types of data, we will need a way to transform them.
 
-**Categorical Features** - Features that have a discrete set of possible values. Street name, for example. These values will need to be converted to numberic values. We do this by putting all of the possible feature values in an enumerated mapping and storing only the index as the feature's value.
+**Categorical Features** - Features that have a discrete set of possible values. Street name, for example. These values will need to be converted to numeric values. We do this by putting all of the possible feature values in an enumerated mapping and storing only the index as the feature's value.
 
 **OOV (out-of-vocabulary) Bucket** - When dealing with categorical features, it is likely that our dataset does not contain every possible value for a feature, so we put all of those extra values into a catch-all "other" category known as an OOV bucket.
 
@@ -168,14 +168,14 @@ For example using this approach, here's how we can map our street names to numbe
 * map everything else (OOV) to 4
 
 However this solution can create some issues.
-* We will be learning a single weight that applies to all streets and multiplying that weight based upon the location of the street in the map (0, 1, 2, etc). Our model will need the flexibility of learning different weights for each street.
-* We might have cases where a house is on a courner of two streets wich means that street\_name would take multiple values
+* We will be learning a single weight that applies to all streets and multiplying that weight based upon the location of the street in the map (0, 1, 2, etc.). Our model will need the flexibility of learning different weights for each street.
+* We might have cases where a house is on a corner of two streets which means that street\_name would take multiple values
 
 **One-hot-encoding** - When you take categorical features and convert them into a binary vector where the length of the vector is the size of the discrete set of possible values. All values of the vector are set to 0 except for the one that represents the value of the feature.
 
 **Multi-hot-encoding** - Same as one-hot-encoding except there can be multiple 1 values in the vector.
 
-**Sparse Representation** - Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for street_name. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a sparse representation in which only nonzero values are stored.
+**Sparse Representation** - Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for street\_name. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a sparse representation in which only nonzero values are stored.
 
 ### Qualities of Good Features
 #### Avoid rarely used or discrete feature values
@@ -195,14 +195,14 @@ Definitions of features should not change over time.
 When we convert floating point feature values from their natural range into a standard range. (Ex: 1 to 1000 -> 0 to 1, or -1 to +1)
 * This helps with gradient descent convergence
 * Helps avoid the "NaN trap" when a value in the model exceeds the floating-point precision limit during training from being multiplied too many times.
-* Helps the model learn apprpriate weights for each feature. Without feature scaling, the model will pay too much attention to the features having larger ranges.
+* Helps the model learn appropriate weights for each feature. Without feature scaling, the model will pay too much attention to the features having larger ranges.
    * Nothing terrible will happen if Feature A is scaled from -1 to +1 while Feature B is scaled from -3 to +3. However, your model will react poorly if Feature B is scaled from 5000 to 100000.
 #### Handling Outliers in Data
 **Logarithmic Scaling** - When you take the log of each value.
 
 **Capping Feature Values** - set a maximum or minimum value for feature values to stop outliers from having excessive influence.
 
-**Binning** - When you split a feature with a large range of values that don't exactly have a linear relationship with your label. Take Lattitude for example, each different lattitude has an effect on housing price, however latitude of 34 is not proportionately lower or higher than latitude 36. We split these lattitudes into 'zones' in boolean vector similar to hot-encoding so the model can learn completely different weights for each zone.
+**Binning** - When you split a feature with a large range of values that don't exactly have a linear relationship with your label. Take Latitude for example, each different latitude has an effect on housing price, however latitude of 34 is not proportionately lower or higher than latitude 36. We split these latitudes into 'zones' in boolean vector similar to hot-encoding so the model can learn completely different weights for each zone.
 #### Scrubbing
 Until now, we've assumed that all the data used for training and testing was trustworthy. In real-life, many examples in data sets are unreliable due to one or more of the following:
 * Omitted values. For instance, a person forgot to enter a value for a house's age.
@@ -239,7 +239,7 @@ Two 5 element one-hot vectors crossed would give you one 25 element one-hot vect
 <ins>By doing this we end up with vastly more predictive ability than either feature on its own.</ins> For example, if a dog cries (happily) at 5:00 pm when the owner returns from work will likely be a great positive predictor of owner satisfaction. Crying (miserably, perhaps) at 3:00 am when the owner was sleeping soundly will likely be a strong negative predictor of owner satisfaction.
 
 ## Regularization: Simplicity
-Often times when we are training data we run into the problem of overfitting. In order to solve this problem we instead of simply aiming to minimize loss (empirical risk minimization):
+Often times when we are training data we run into the problem of over fitting. In order to solve this problem we instead of simply aiming to minimize loss (empirical risk minimization):
 
 `minimize(Loss(Data|Model))`
 
@@ -266,6 +266,6 @@ Performing L2 regularization has the following effect on a model:
 * Encourages the mean of the weights toward 0, with a normal (bell-shaped or Gaussian) distribution.
 
 When choosing a lambda value, the goal is to strike the right balance between simplicity and training-data fit:
-* **If your lambda value is too high** - your model will be simple, but you run the risk of underfitting your data. Your model won't learn enough about the training data to make useful predictions.
-* **If your lambda value is too low** - your model will be more complex, and you run the risk of overfitting your data. Your model will learn too much about the particularities of the training data, and won't be able to generalize to new data.
+* **If your lambda value is too high** - your model will be simple, but you run the risk of under fitting your data. Your model won't learn enough about the training data to make useful predictions.
+* **If your lambda value is too low** - your model will be more complex, and you run the risk of over fitting your data. Your model will learn too much about the particularities of the training data, and won't be able to generalize to new data.
 
