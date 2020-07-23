@@ -1,3 +1,31 @@
+ 1. [Framing Key ML Terminology](#framing-key-ml-terminology)
+ 2. [Descending into ML](#descending-into-ml)
+ 3. [Reducing Loss](#reducing-loss)
+    * [Gradient Decent](#gradient-decent)
+    * [How to calculate Gradient Decent](#how-to-calculate-gradient-decent)
+ 4. [First Steps with TF](#first-steps-with-tf)
+    * [Python libraries](#python-libraries)
+    * [Linear Regression with tf.keras](#linear-regression-with-tf.keras)
+ 5. [Generalization](#generalization)
+    * [The three basic assumptions of generalization:](#the-three-basic-assumptions-of-generalization:)
+ 6. [Training and Test Sets](#training-and-test-sets)
+ 7. [Validation Set](#validation-set)
+ 8. [Representation](#representation)
+    * [Feature engineering](#feature-engineering)
+    * [Qualities of Good Features](#qualities-of-good-features)
+      * [Avoid rarely used or discrete feature values](#avoid-rarely-used-or-discrete-feature-values)
+      * [Prefer clear and obvious meanings](#prefer-clear-and-obvious-meanings)
+      * [Don't use "magic" values](#don't-use-"magic"-values)
+      * [Account for upstream instability](#account-for-upstream-instability)
+    * [Cleaning Data](#cleaning-data)
+      * [Scaling](#scaling)
+      * [Handling Outliers in Data](#handling-outliers-in-data)
+      * [Scrubbing](#scrubbing)
+ 9. [Feature Crosses](#feature-crosses)
+      * [Crossing One-Hot Vectors](#crossing-one-hot-vectors)
+10. [Regularization: Simplicity](#regularization:-simplicity)
+    * [Lambda](#lambda)
+
 # 2020-07-09
 ## Framing Key ML Terminology
 
@@ -24,7 +52,9 @@ A simple 2d model can be defined with: y1 = b + w1 * x1
 * x is the input
 * b is the bias. (the y intercept, sometimes referred to as w0)
 
-Some models might depend on more than one input making the equation something like: y1 = b + w1 * x1 + w2 * x2 ..
+Some models might depend on more than one input making the equation something like:
+
+`y1 = b + w1 * x1 + w2 * x2 ..`
 
 **Loss** - is how close the predictions are to the model.
 
