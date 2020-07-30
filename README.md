@@ -300,3 +300,67 @@ When choosing a lambda value, the goal is to strike the right balance between si
 * **If your lambda value is too high** - your model will be simple, but you run the risk of under fitting your data. Your model won't learn enough about the training data to make useful predictions.
 * **If your lambda value is too low** - your model will be more complex, and you run the risk of over fitting your data. Your model will learn too much about the particularities of the training data, and won't be able to generalize to new data.
 
+# 2020-07-29
+## Logistic Regression
+When problems require a probability estimate as an output, logistic regression is an extremely efficient mechanism for calculating those probabilities. The returned probability can be used in the following ways
+* "As is"
+* converted to a binary category
+
+**Sigmoid Function** - a function used to ensure that our logistic regression model output always falls between 0 and 1.
+
+`y = 1/1 + e^-z`
+
+## Classification
+**Classification Threshold** - a value between 0 and 1 that you define, such that, a value above the threshold indicates one binary value and below indicates the other.
+* This will not always be 0.5, it is problem-dependent. So it is a value you must tune.
+
+**True Positive** - an outcome where the model _correctly_ predicts the _positive_ class
+
+**True Negative** - an outcome where the model _correctly_ predicts the _negative_ class
+
+**False Positive** - an outcome where the model _incorrectly_ predicts the _positive_ class
+
+**False Negative** - an outcome where the model _incorrectly_ predicts the _negative_ class
+
+### Accuracy
+z*Accuracy** - is the metric for evaluating classification models. Informally, it is the fraction of predictions our model got right.
+
+Binary classification can also be calculated in terms of positives and negatives
+
+`A = TP + TN / TP + TN + FP + FN`
+
+Accuracy doesn't always tell the full picture. If you have a Class-imbalanced data set, such as one to classify benign vs malignant tumors. Just because you do well at classifying the benign ones but not the malignant ones, accuracy alone would say that the model is highly accurate because the number of benign tumors is much larger than malignant ones.
+
+**Class-imbalanced Data Set** - A data set where there is a significant disparity between the number of positive and negative labels in a binary classification.
+
+### Precision and Recall
+**Precision** - The percentage of the positive identifications that are actually correct
+* `Precision = TP / TP + FP`
+
+**Recall** - The percentage of total positive classes that are identified correctly
+* `Recall = TP / TP + FN`
+
+#### Tuning Precision and Recall is a Tug of War
+To fully evaluate the effectiveness of a model, you must examine both precision and recall. Unfortunately these two values are often in tension, increasing one usually decreases the other and vice versa.
+
+### ROC Curve and AUC
+**Receiver Operating Characteristic (ROC) Curve** - a graph showing the performance of a classification model at all classification thresholds. This plots two parameters:
+* True Positive Rates
+* False Positive Rates
+
+**True Positive Rate (TPR)** - is a synonym for **recall**
+
+**False Positive Rate (FPR)** - is defined as `FPR = FP / TP + FN`
+
+In order to calculate a ROC curve, instead of just running the regression model many different times with different classification thresholds, we use an algorithm called AUC.
+
+**Area under the ROC Curve (AUC)** - measures the entire two-dimensional area under the entire ROC curve from (0,0) to (1,1). It is essentially en integral.
+* Provides an aggregate measure of performance across all possible classification thresholds
+
+AUC is desirable for the following two reasons:
+* AUC is scale-invariant. It measures how well predictions are ranked, rather than their absolute values.
+* AUC is classification-threshold-invariant. It measures the quality of the model's predictions irrespective of what classification threshold is chosen.
+
+Caveats of using AUC are:
+* Scale invariance is not always desirable. For example, sometimes we really do need well calibrated probability outputs, and AUC won't tell us about that.
+* Classification-threshold invariance is not always desirable. In cases where there are wide disparities in the cost of false negatives vs. false positives, it may be critical to minimize one type of classification error. For example, when doing email spam detection, you likely want to prioritize minimizing false positives (even if that results in a significant increase of false negatives). AUC isn't a useful metric for this type of optimization.
