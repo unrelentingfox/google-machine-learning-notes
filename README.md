@@ -364,3 +364,29 @@ AUC is desirable for the following two reasons:
 Caveats of using AUC are:
 * Scale invariance is not always desirable. For example, sometimes we really do need well calibrated probability outputs, and AUC won't tell us about that.
 * Classification-threshold invariance is not always desirable. In cases where there are wide disparities in the cost of false negatives vs. false positives, it may be critical to minimize one type of classification error. For example, when doing email spam detection, you likely want to prioritize minimizing false positives (even if that results in a significant increase of false negatives). AUC isn't a useful metric for this type of optimization.
+
+### Prediction Bias
+**Prediction Bias** - difference between predictions and observations.
+* A significant nonzero prediction bias tells you there is a bug somewhere in your model, as it indicates that the model is wrong about how frequently positive labels occur.
+
+**Calibration Layer** - an additional layer that adjusts the output of your model to reduce prediction bias.
+* **This is a bad idea!**
+* You're fixing the symptom rather than the cause, and it creates a brittle system that you have to maintain.
+
+#2020-08-05
+## Regularization
+**L1 Regularization** - regularization technique that turns low weights to zero. It penalizes the absolute value of the weights.
+
+## Neural Networks
+**Hidden Layers** - An extra layer of weights where each node is a weighted sum of the previous layer's nodes.
+
+**Activation Functions** - A nonlinear function that each hidden layer is piped through in order to enable us to model non-linear problems
+* As we add more layers with more activation functions each layer is effectively learning a more complex, higher-level function over the raw inputs
+
+### Common Activation Functions
+* **Sigmoid** - Converts weighted sum into a value between 0 and 1.
+* **Rectified Linear Unit (ReLU)** - max(0,x)
+
+## Training Neural Nets
+**Dropout Regularization** - 
+
