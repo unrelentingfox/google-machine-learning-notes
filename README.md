@@ -274,7 +274,7 @@ Often times when we are training data we run into the problem of over fitting. I
 
 `minimize(Loss(Data|Model))`
 
-we'll now minimize loss+complexity (**Structural Risk Minimization**)
+We'll now minimize loss+complexity (**Structural Risk Minimization**)
 
 `minimize(Loss(Data|Model) + complexity(Model))`
 
@@ -374,7 +374,7 @@ Caveats of using AUC are:
 * You're fixing the symptom rather than the cause, and it creates a brittle system that you have to maintain.
 
 #2020-08-05
-## Regularization
+## Regularization and Sparsity
 **L1 Regularization** - regularization technique that turns low weights to zero. It penalizes the absolute value of the weights.
 
 ## Neural Networks
@@ -387,6 +387,43 @@ Caveats of using AUC are:
 * **Sigmoid** - Converts weighted sum into a value between 0 and 1.
 * **Rectified Linear Unit (ReLU)** - max(0,x)
 
+#2020-08-21
 ## Training Neural Nets
-**Dropout Regularization** - 
+#### Ways back propagation can go wrong
+* **Vanishing Gradients** - Gradients for the lower layers (closer to the input) can get very close to zero. This causes them to train slowly or not at all. ReLU activation function can help prevent vanishing gradients.
+* **Exploding Gradients** - if the gradients close to the input get exceptionally large they can become too large to converge. Batch normalization, and or lowering the learning rate can help prevent this.
+* **Dead ReLU units** - Sometimes ReLU units can die, this is when they fall below 0. It outputs 0 activation and contributes nothing to the network's output. It is difficult for them to get back above 0 at that point. Lowering the learning rate can help prevent this.
 
+**Dropout Regularization** - The process of randomly "dropping out" unit activations in a network for a single gradient step. It can range from 0.0 which is no dropout to 1.0 which is drop everything. Values between 0 and 1 are most useful.
+
+## Multi-Class Neural Networks
+#### One vs. All
+When you create N separate binary classifiers for a problem with N possible solutions.
+* Is this image an apple? No.
+* Is this image a bear? No.
+* Is this image candy? No.
+* Is this image a dog? Yes.
+* Is this image an egg? No.
+
+This approach is fairly reasonable when the total number of classes is small, but becomes increasingly inefficient as the number of classes rises.
+
+#### Softmax
+Similar to logistic regression, Softmax extends the idea of producing a decimal output as a probability. We assign decimal probabilities to each class in a multi-class problem. Those decimal probabilities must add up to 1.0.
+
+Softmax is implemented through a neural network layer just before the output layer. The Softmax layer must have the same number of nodes as the output layer.
+
+**Full Softmax** - is the Softmax we've been discussing; that is, Softmax calculates a probability for every possible class.
+
+**Candidate sampling** - means that instead of providing probabilities for all labels, we only do for all positive labels, and a random sample of the negative ones. This can be useful when your neural net is dealing with a large number of classes.
+
+Softmax assumes that each example is a member of exactly one class. Some examples, however, can simultaneously be a member of multiple classes. For such examples you may not use Softmax. You must rely on multiple logistic regressions.
+
+#2020-08-21
+## Embeddings
+**Collaborative Filtering** - Collaborative filtering is the task of making predictions about the interests of a user based on interests of many other users.
+
+**Embedding space** - si where we associate each word with a vector of coordinates.
+
+**Latent Dimension** - a dimension in an embedding space that does not have a semantic meaning. One that is inferred from the data instead of explicit in it.
+
+**Categorical Data
